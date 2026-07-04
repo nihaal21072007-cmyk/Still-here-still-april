@@ -1,0 +1,756 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* ============================================================
+   STILL HERE — V3 Visual Identity
+   "A hidden garden that exists only at night."
+   Alive · Handcrafted · Found
+   ============================================================ */
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* V3 — Foundation: the night itself */
+  --color-void: var(--void);
+  --color-midnight: var(--midnight);
+  --color-dusk: var(--dusk);
+  --color-twilight: var(--twilight);
+  --color-nebula: var(--twilight-edge);
+
+  /* V3 — Light sources */
+  --color-moonlight: var(--moonlight);
+  --color-starlight: var(--starlight);
+  --color-firefly: var(--firefly-warm);
+  --color-firefly-dim: var(--firefly-dim);
+  --color-candle: var(--candle-amber);
+  --color-dawn: var(--dawn-touch);
+
+  /* V3 — Flowers */
+  --color-tulip: var(--tulip-coral);
+  --color-coral: var(--tulip-coral);
+  --color-rose: var(--deep-magenta);
+  --color-cosmos: var(--pale-lilac);
+  --color-cream: var(--cream-petal);
+  --color-butter: var(--butter-gold);
+  --color-sage: var(--matcha-sage);
+  --color-matcha: var(--matcha-sage);
+  --color-blush: var(--blush-pink);
+  --color-gold: var(--birthday-gold);
+
+  /* Legacy aliases (kept so older rooms compile) */
+  --color-periwinkle: var(--moonlight);
+  --color-warmth: var(--candle-amber);
+  --color-teal: var(--moonlight);
+  --color-stem: var(--matcha-sage);
+
+  /* V3 — Typography */
+  --font-display: "Playfair Display", Georgia, serif;
+  --font-body: "Lora", Georgia, serif;
+  --font-hand: "Caveat", cursive;
+  --font-label: "DM Sans", system-ui, sans-serif;
+  --font-numeral: "Cormorant Garamond", Georgia, serif;
+  --font-letter: "Lora", Georgia, serif;
+  --font-joke: "DM Sans", system-ui, sans-serif;
+}
+
+:root {
+  --radius: 1rem;
+
+  /* Foundation (the night) */
+  --void:           #060614;
+  --midnight:       #0B0924;
+  --dusk:           #13103A;
+  --twilight:       #1D1750;
+  --twilight-edge:  #2B2268;
+
+  /* Light sources */
+  --moonlight:      #E8E4FF;
+  --starlight:      #FFF8DC;
+  --firefly-warm:   #FFE566;
+  --firefly-dim:    #D4AC30;
+  --candle-amber:   #FFB347;
+  --dawn-touch:     #FFD6A5;
+
+  /* Flowers */
+  --tulip-coral:    #FF7B5C;
+  --deep-magenta:   #C2185B;
+  --pale-lilac:     #C8A8E9;
+  --cream-petal:    #FFF5E4;
+  --butter-gold:    #FFD166;
+  --matcha-sage:    #8DB87A;
+  --blush-pink:     #FFB4C8;
+  --birthday-gold:  #FFD700;
+
+  /* Text */
+  --moonbeam-white: #F0ECFF;
+  --lavender-text:  #B8B0D8;
+  --whisper:        #7A729A;
+
+  /* Parchment */
+  --parchment:      #FDF6E3;
+  --parchment-aged: #F5EDD6;
+  --ink-dark:       #1A1208;
+  --ink-handwritten:#2D1B00;
+
+  /* Semantic tokens */
+  --background: var(--void);
+  --foreground: var(--moonbeam-white);
+  --card: rgba(19, 16, 58, 0.55);
+  --card-foreground: var(--moonbeam-white);
+  --popover: var(--midnight);
+  --popover-foreground: var(--moonbeam-white);
+  --primary: var(--moonlight);
+  --primary-foreground: var(--void);
+  --secondary: var(--dusk);
+  --secondary-foreground: var(--moonbeam-white);
+  --muted: var(--midnight);
+  --muted-foreground: var(--lavender-text);
+  --accent: var(--candle-amber);
+  --accent-foreground: var(--void);
+  --destructive: #ff5577;
+  --destructive-foreground: var(--moonbeam-white);
+  --border: rgba(232, 228, 255, 0.12);
+  --input: rgba(232, 228, 255, 0.16);
+  --ring: var(--moonlight);
+}
+
+@layer base {
+  * { border-color: var(--color-border); }
+  html, body {
+    background-color: var(--void);
+    color: var(--moonbeam-white);
+  }
+  body {
+    font-family: var(--font-body);
+    min-height: 100vh;
+    /* Sky: deep at top, slightly warmer near horizon */
+    background-image:
+      radial-gradient(ellipse 120% 80% at 50% 110%, color-mix(in oklab, var(--midnight) 100%, transparent) 0%, transparent 60%),
+      linear-gradient(180deg, var(--void) 0%, var(--midnight) 70%, #0F0D2E 100%);
+    background-attachment: fixed;
+  }
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    font-weight: 700;
+  }
+  p, li, blockquote { font-family: var(--font-body); }
+  ::selection { background: color-mix(in oklab, var(--moonlight) 35%, transparent); color: var(--void); }
+
+  /* Subtle reading text glow only on display titles */
+  h1.glow, h2.glow { text-shadow: 0 0 24px color-mix(in oklab, var(--moonlight) 30%, transparent); }
+}
+
+/* ----- Typography utilities ----- */
+@utility hand { font-family: var(--font-hand); color: var(--candle-amber); font-weight: 400; }
+@utility serif-letter { font-family: var(--font-letter); color: var(--moonbeam-white); line-height: 1.7; }
+@utility joke-font { font-family: var(--font-label); }
+@utility label-micro {
+  font-family: var(--font-label);
+  letter-spacing: 0.08em;
+  text-transform: lowercase;
+  font-size: 12px;
+  color: var(--lavender-text);
+}
+@utility numeral { font-family: var(--font-numeral); font-weight: 400; }
+@utility display-title { font-family: var(--font-display); font-weight: 700; letter-spacing: -0.02em; }
+
+/* ----- Material library ----- */
+
+/* PAPER NOTE — small floating cream paper, slightly rotated */
+@utility paper-note {
+  background:
+    radial-gradient(circle at 20% 10%, rgba(0,0,0,0.04), transparent 40%),
+    linear-gradient(180deg, var(--parchment) 0%, var(--parchment-aged) 100%);
+  color: var(--ink-dark);
+  border-radius: 4px;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.4) inset,
+    0 6px 16px -6px rgba(0,0,0,0.5),
+    0 2px 4px rgba(255, 179, 71, 0.15);
+  position: relative;
+}
+.paper-note::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background-image:
+    repeating-linear-gradient(45deg, rgba(0,0,0,0.015) 0 2px, transparent 2px 4px);
+  border-radius: inherit;
+}
+
+/* PARCHMENT — larger aged paper for letter bodies */
+@utility parchment {
+  background:
+    radial-gradient(circle at 80% 90%, rgba(120, 80, 0, 0.08), transparent 60%),
+    radial-gradient(circle at 10% 5%, rgba(0,0,0,0.05), transparent 50%),
+    linear-gradient(180deg, var(--parchment) 0%, var(--parchment-aged) 100%);
+  color: var(--ink-dark);
+  border-radius: 2px;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.5) inset,
+    0 18px 36px -12px rgba(0,0,0,0.6),
+    0 4px 10px rgba(255, 179, 71, 0.1);
+}
+
+/* WOODEN SIGN — hand-painted */
+@utility wooden-sign {
+  background:
+    linear-gradient(180deg, #6B4A33 0%, #5C3D2E 100%);
+  color: var(--parchment);
+  border-radius: 6px;
+  box-shadow:
+    inset 0 0 0 1px rgba(0,0,0,0.3),
+    inset 0 1px 0 rgba(255,255,255,0.1),
+    0 6px 16px -6px rgba(0,0,0,0.6);
+  position: relative;
+  text-shadow: 0 1px 0 rgba(0,0,0,0.5);
+}
+.wooden-sign::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background-image:
+    repeating-linear-gradient(90deg, rgba(0,0,0,0.04) 0 3px, transparent 3px 9px);
+  border-radius: inherit;
+}
+
+/* GLASS LANTERN GLOW — warm amber pool */
+@utility lantern-glow {
+  box-shadow:
+    0 0 24px 4px color-mix(in oklab, var(--candle-amber) 55%, transparent),
+    0 0 80px 16px color-mix(in oklab, var(--candle-amber) 22%, transparent);
+}
+
+/* ENVELOPE flap */
+@utility envelope {
+  background: linear-gradient(160deg, var(--parchment) 0%, var(--parchment-aged) 100%);
+  color: var(--ink-dark);
+  border-radius: 3px;
+  box-shadow:
+    inset 0 0 0 1px rgba(0,0,0,0.08),
+    0 10px 24px -8px rgba(0,0,0,0.6);
+  position: relative;
+}
+
+/* Legacy `paper-card` → soft moonlit surface (no longer a SaaS card) */
+@utility paper-card {
+  background:
+    linear-gradient(180deg, rgba(29, 23, 80, 0.45), rgba(11, 9, 36, 0.55));
+  border: 1px solid rgba(232, 228, 255, 0.10);
+  border-radius: var(--radius-xl);
+  backdrop-filter: blur(10px);
+  box-shadow:
+    inset 0 1px 0 rgba(232, 228, 255, 0.06),
+    0 12px 36px -16px rgba(0,0,0,0.7);
+}
+
+@utility glow-card {
+  box-shadow:
+    inset 0 0 0 1px color-mix(in oklab, var(--firefly-warm) 25%, transparent),
+    0 0 40px -10px color-mix(in oklab, var(--firefly-warm) 50%, transparent);
+}
+@utility glow-coral {
+  box-shadow:
+    inset 0 0 0 1px color-mix(in oklab, var(--tulip-coral) 40%, transparent),
+    0 0 30px -6px color-mix(in oklab, var(--tulip-coral) 55%, transparent);
+}
+@utility glow-sage {
+  box-shadow:
+    inset 0 0 0 1px color-mix(in oklab, var(--matcha-sage) 35%, transparent),
+    0 0 30px -6px color-mix(in oklab, var(--matcha-sage) 55%, transparent);
+}
+@utility glow-teal {
+  box-shadow:
+    inset 0 0 0 1px color-mix(in oklab, var(--moonlight) 30%, transparent),
+    0 0 30px -6px color-mix(in oklab, var(--moonlight) 45%, transparent);
+}
+@utility glow-moon {
+  box-shadow:
+    inset 0 0 0 1px color-mix(in oklab, var(--moonlight) 30%, transparent),
+    0 0 30px -8px color-mix(in oklab, var(--moonlight) 50%, transparent);
+}
+
+/* ----- Animations ----- */
+@utility soft-shimmer { position: relative; overflow: hidden; }
+.soft-shimmer::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(115deg, transparent 30%, color-mix(in oklab, var(--moonlight) 30%, transparent) 50%, transparent 70%);
+  transform: translateX(-100%);
+  animation: shimmer 3.6s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes shimmer { to { transform: translateX(100%); } }
+
+@keyframes float-y { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
+@utility float-soft { animation: float-y 4s ease-in-out infinite; }
+
+@keyframes breathe-scene {
+  0%,100% { filter: brightness(1); }
+  50%     { filter: brightness(1.04); }
+}
+@utility breathe-scene { animation: breathe-scene 8s ease-in-out infinite; }
+
+@keyframes bloom { 0%{transform:scale(.6) rotate(-6deg);opacity:0} 100%{transform:scale(1) rotate(0);opacity:1} }
+@utility bloom-in { animation: bloom .7s cubic-bezier(.22,1.2,.36,1) both; }
+
+@keyframes drop-in { 0%{transform:translateY(30px) rotate(-4deg);opacity:0} 100%{transform:translateY(0);opacity:1} }
+@utility drop-in { animation: drop-in .6s cubic-bezier(.22,1.2,.36,1) both; }
+
+@keyframes fade-in { 0%{opacity:0} 100%{opacity:1} }
+@utility fade-in { animation: fade-in 1.2s ease-out both; }
+
+@keyframes pip-blink { 0%,92%,100%{transform:scaleY(1)} 95%{transform:scaleY(.1)} }
+@utility pip-eye { animation: pip-blink 5s ease-in-out infinite; transform-origin:center; }
+
+@keyframes breathe { 0%,100%{filter:brightness(1) drop-shadow(0 0 6px currentColor)} 50%{filter:brightness(1.18) drop-shadow(0 0 14px currentColor)} }
+@utility breathe { animation: breathe 4s ease-in-out infinite; }
+
+/* Firefly drift — small wandering glows */
+@keyframes firefly-drift {
+  0%   { transform: translate(0, 0); opacity: 0.2; }
+  25%  { transform: translate(30px, -40px); opacity: 1; }
+  50%  { transform: translate(-20px, -80px); opacity: 0.6; }
+  75%  { transform: translate(40px, -120px); opacity: 1; }
+  100% { transform: translate(0, -160px); opacity: 0; }
+}
+@keyframes firefly-pulse {
+  0%,100% { filter: brightness(0.6) drop-shadow(0 0 4px currentColor); }
+  50%     { filter: brightness(1.4) drop-shadow(0 0 12px currentColor); }
+}
+
+@keyframes drift-up {
+  0% { transform: translateY(20px); opacity: 0; }
+  15% { opacity: .6; }
+  85% { opacity: .4; }
+  100% { transform: translateY(-110vh); opacity: 0; }
+}
+
+@keyframes stem-grow { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+@keyframes petal-open { from { transform: scale(0) rotate(var(--r,0deg)); opacity:0 } to { transform: scale(1) rotate(var(--r,0deg)); opacity:1 } }
+@keyframes sway { 0%,100%{transform:rotate(-1.5deg)} 50%{transform:rotate(1.5deg)} }
+@utility sway-soft { animation: sway 5s ease-in-out infinite; transform-origin: bottom center; }
+
+@keyframes shoot {
+  0% { transform: translate(0,0) rotate(215deg); opacity: 0; }
+  10% { opacity: 1; }
+  100% { transform: translate(-120vw, 70vh) rotate(215deg); opacity: 0; }
+}
+.shooting-star {
+  position: fixed; top: 8%; right: -10vw; width: 120px; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--starlight), transparent);
+  filter: drop-shadow(0 0 6px var(--firefly-warm));
+  animation: shoot 1.6s ease-in forwards;
+  pointer-events: none; z-index: 1;
+}
+
+@keyframes wiggle { 0%,100%{transform:rotate(-4deg)} 50%{transform:rotate(4deg)} }
+@utility wiggle { animation: wiggle .6s ease-in-out infinite; }
+
+@keyframes lock-pulse { 0%,100%{opacity:.65} 50%{opacity:1} }
+@utility lock-pulse { animation: lock-pulse 2.4s ease-in-out infinite; }
+
+@keyframes star-twinkle { 0%,100%{opacity:0.4} 50%{opacity:1} }
+
+@keyframes lantern-flicker {
+  0%,94%,100% { opacity: 1; }
+  95%,97%     { opacity: 0.75; }
+  96%         { opacity: 0.9; }
+}
+@utility lantern-flicker { animation: lantern-flicker 32s ease-in-out infinite; }
+
+
+
+/* Animations for bloom sequence */
+@keyframes seedPulse {
+  0% { transform: scale(0); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+@keyframes rootGrow {
+  to { stroke-dashoffset: 0; }
+}
+@keyframes stemGrowMagic {
+  0% { transform: scaleY(0); }
+  100% { transform: scaleY(1); }
+}
+@keyframes flowerOpen {
+  0% {
+    transform: translate(-50%, -50%) scale(0) rotate(-30deg);
+    opacity: 0;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+@keyframes pinkBloom {
+  0% { opacity: 0; }
+  100% { opacity: 0.35; }
+}
+@keyframes fireflyRise {
+  0% {
+    transform: translateY(0) scale(0);
+    opacity: 0;
+  }
+  20% {
+    transform: translateY(-20px) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-220px) translateX(calc((var(--rand,0.5)-0.5)*120px));
+    opacity: 0;
+  }
+}
+/* Utility for reduced motion: */
+@media (prefers-reduced-motion: reduce) {
+  .paper-card, .drop-in, .breathe, .cursor-pointer {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+
+
+@keyframes seedFall {
+  from {
+    transform: translateY(-250px);
+  }
+
+  to {
+    transform: translateY(0px);
+  }
+}
+
+.seed-fall {
+  animation: seedFall 1s ease forwards;
+}
+
+@keyframes floatCard {
+  0% {
+    transform: translate(-50%, -50%);
+  }
+
+  50% {
+    transform: translate(-50%, -58%);
+  }
+
+  100% {
+    transform: translate(-50%, -50%);
+  }
+}
+
+@keyframes firefly {
+  0% {
+    transform: translateY(0px);
+    opacity: 0.2;
+  }
+
+  50% {
+    transform: translateY(-20px);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(0px);
+    opacity: 0.2;
+  }
+}
+
+
+.magic-particle{
+    position:absolute;
+    width:4px;
+    height:4px;
+    border-radius:50%;
+    background:#ff8fd7;
+    box-shadow:0 0 8px #ff8fd7;
+}
+
+
+/* styles.css (or a relevant imported CSS file) */
+
+/* Root container styling (if needed for full-screen) */
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100%;
+  background: #000;
+  overflow-x: hidden;
+  overflow-y: auto;
+
+}
+
+/* PromiseBloomSequence container */
+.PromiseBloomSequence {
+  position: absolute;
+  transform: translate(-50%, 0);
+  will-change: transform, opacity;
+  /* Set transform-origin for child SVGs if needed */
+}
+
+/* Phase 1: ground glow */
+.ground-glow {
+  position: absolute;
+  left: -40px; bottom: -10px;
+  width: 100px; height: 20px;
+  background: rgba(255, 120, 210, 0.6);
+  border-radius: 50%;
+  filter: blur(15px);
+  animation: groundGlow 2s ease-out forwards;
+}
+@keyframes groundGlow {
+  from { opacity: 0; transform: scaleX(0.5); }
+  to { opacity: 1; transform: scaleX(1.2); }
+}
+
+
+
+
+/* Phase 3: stem growth */
+.stem-svg {
+  position: absolute;
+  left: -50px; bottom: 0;
+  width: 100px;
+  overflow: visible;
+}
+.stem-path {
+  stroke-dasharray: 500;
+  stroke-dashoffset: 500;
+  animation: stemGrow 1.2s ease-out forwards;
+}
+@keyframes stemGrow {
+  0% { stroke-dashoffset: 500; }
+  80% { stroke-dashoffset: 0; }
+  100% { stroke-dashoffset: 0; }
+}
+
+/* Phase 4: leaf unfurl */
+.leaves-svg {
+  position: absolute;
+  left: -100px; bottom: 100px;
+  width: 200px;
+}
+.leaf-left, .leaf-right {
+  transform-origin: 100px 100px;
+  transform: scale(0) rotate(0deg);
+}
+.leaf-left {
+  animation: leafLeftOpen 1s 0.5s ease-out forwards;
+}
+.leaf-right {
+  animation: leafRightOpen 1s 0.7s ease-out forwards;
+}
+@keyframes leafLeftOpen {
+  0% { transform: scale(0.2) rotate(0deg); opacity: 0; }
+  70% { transform: scale(1.1) rotate(-35deg); opacity: 1; }
+  100% { transform: scale(1) rotate(-20deg); opacity: 1; }
+}
+@keyframes leafRightOpen {
+  0% { transform: scale(0.2) rotate(0deg); opacity: 0; }
+  70% { transform: scale(1.1) rotate(35deg); opacity: 1; }
+  100% { transform: scale(1) rotate(20deg); opacity: 1; }
+}
+
+/* Phase 5 & 6: flower blooming */
+.flower-svg {
+  position: absolute;
+  left: -100px; bottom: 280px;
+  width: 200px;
+}
+.flower-center {
+  opacity: 0;
+  animation: centerGlow 1s 1.0s ease-out forwards;
+}
+@keyframes centerGlow {
+  0% { opacity: 0; transform: scale(0); }
+  80% { opacity: 1; transform: scale(1.2); }
+  100% { opacity: 1; transform: scale(1); }
+}
+/* Petal animations: each petal appears sequentially */
+.petal {
+  transform-origin: 100px 100px;
+  opacity: 0;
+  transform: scale(0.5);
+}
+.petal1 { animation: petalOpen 1s 1.2s ease-out forwards; }
+.petal2 { animation: petalOpen 1s 1.4s ease-out forwards; }
+.petal3 { animation: petalOpen 1s 1.6s ease-out forwards; }
+.petal4 { animation: petalOpen 1s 1.8s ease-out forwards; }
+@keyframes petalOpen {
+  0% { opacity: 0; transform: scale(0.3); }
+  70% { opacity: 1; transform: scale(1.1); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+/* Phase 6: bloom aura shockwave */
+.bloom-aura {
+  position: absolute;
+  left: -150px; bottom: 250px;
+  width: 300px; height: 300px;
+  background: rgba(255,120,210,0.3);
+  border-radius: 50%;
+  filter: blur(30px);
+  animation: auraPulse 2s 1.8s ease-out forwards;
+}
+@keyframes auraPulse {
+  0% { transform: scale(0.2); opacity: 0.8; }
+  100% { transform: scale(2.5); opacity: 0; }
+}
+
+/* Phase 7: fireflies */
+.firefly {
+  position: absolute;
+  width: 6px; height: 6px;
+  background: #ffe87c;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #ffe87c, 0 0 12px #ffe87c;
+  animation: fireflyFloat infinite ease-in-out;
+  opacity: 0;
+}
+@keyframes fireflyFloat {
+  0%   { transform: translate(0, 0) scale(0.5); opacity: 0; }
+  10%  { opacity: 1; }
+  50%  { transform: translate(30px, -50px) scale(1); opacity: 0.8; }
+  100% { transform: translate(-20px, 20px) scale(0.5); opacity: 0; }
+}
+
+/* Reduced-motion: disable animations if requested */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+
+
+@keyframes particleGather {
+
+  0%{
+
+    transform:translate(0,0) scale(.2);
+
+    opacity:0;
+
+  }
+
+  20%{
+
+    opacity:1;
+
+  }
+
+  100%{
+
+    transform:translate(
+      calc(-50vw + 50%),
+      250px
+    ) scale(0);
+
+    opacity:0;
+
+  }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ---------------- STEM ---------------- */
+
+.stem{
+    stroke-dasharray:650;
+    stroke-dashoffset:650;
+
+    animation:
+        growStem 3.8s ease forwards;
+
+    animation-delay:4.5s;
+
+    filter:
+        drop-shadow(0 0 6px #6cff9f)
+        drop-shadow(0 0 18px #4dff91);
+}
+
+@keyframes growStem{
+
+    0%{
+        stroke-dashoffset:650;
+    }
+
+    100%{
+        stroke-dashoffset:0;
+    }
+
+}
+
+.stem{
+
+    transform-origin:bottom center;
+
+    animation:
+        growStem 3.8s ease forwards,
+        stemBreath 5s ease-in-out infinite;
+
+    animation-delay:
+        4.5s,
+        8.5s;
+}
+
+@keyframes stemBreath{
+
+0%{
+transform:rotate(0deg);
+}
+
+50%{
+transform:rotate(-1deg);
+}
+
+100%{
+transform:rotate(0deg);
+}
+
+}
+
+
+#stem-main{
+    filter:drop-shadow(0 0 8px rgba(90,255,150,.25));
+}

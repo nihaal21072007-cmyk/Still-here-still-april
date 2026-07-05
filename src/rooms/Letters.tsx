@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { RoomShell } from "@/components/RoomShell";
 import { LETTERS } from "@/data/content";
-import { useVisits, useGarden, useDiscoveries } from "@/lib/state";
+import { useGarden, useDiscoveries } from "@/lib/state";
 
 const GLOW_MAP: Record<string, string> = {
   warm:  "color-mix(in oklab, var(--warmth) 35%, transparent)",
@@ -11,32 +11,13 @@ const GLOW_MAP: Record<string, string> = {
 };
 
 export function Letters() {
-  const visits = useVisits();
+ //const visits = useVisits();
   const { flowers } = useGarden();
   const { unlock } = useDiscoveries();
   const month = new Date().getMonth() + 1;
   const [open, setOpen] = useState<string | null>(null);
 
-const isUnlocked = (l: any) => {
-  if (l.unlocked) return true;
-
-  // Unlock after a certain number of visits
-  if (l.unlockVisit && visits >= l.unlockVisit) return true;
-
-  // Unlock only between a visit range
-  if (l.visitRange) {
-    const [min, max] = l.visitRange;
-    if (visits >= min && visits <= max) return true;
-  }
-
-  // Unlock after planting flowers
-  if (l.requiresGarden && flowers.length >= l.requiresGarden) return true;
-
-  // Unlock during a specific month
-  if (l.requiresMonth && month === l.requiresMonth) return true;
-
-  return false;
-};
+const isUnlocked = (_: any) => true;
 
 
   const active = LETTERS.find((l) => l.id === open);
@@ -54,23 +35,12 @@ const isUnlocked = (l: any) => {
           const unlocked = isUnlocked(l);
           const glow = GLOW_MAP[l.glow ?? "warm"];
           
-const lockReason =
-  l.unlockVisit
-    ? `unlocks at visit ${l.unlockVisit} (you're at ${visits})`
-    : l.visitRange
-    ? `opens between visits ${l.visitRange[0]}-${l.visitRange[1]}`
-    : l.requiresGarden
-    ? `plant ${l.requiresGarden} flowers (you have ${flowers.length})`
-    : l.requiresMonth
-    ? `opens in ${
-        ["jan","feb","mar","apr","may","jun","jul","aug","sep","oct","nov","dec"][l.requiresMonth - 1]
-      }`
-    : "soon";
+const lockReason = "";
 
           return (
             <button
               key={l.id}
-              disabled={!unlocked}
+              disabled={false}
               onClick={() => unlocked && openLetter(l.id)}
               style={{
                 animationDelay: `${i * 80}ms`,
@@ -81,9 +51,9 @@ const lockReason =
               className={`drop-in paper-card p-5 text-left transition-transform ${unlocked ? "hover:-translate-y-1" : "opacity-50"}`}
             >
               <div className="flex items-start justify-between gap-3">
-                <div className="text-3xl">{unlocked ? "✉️" : "🔒"}</div>
+               <div className="text-3xl">✉️</div>
                 <div className="hand text-base" style={{ color: "var(--muted-foreground)" }}>
-                  {unlocked ? "open me" : lockReason}
+                 open me
                 </div>
               </div>
               <div className="font-display font-extrabold text-xl mt-2">{l.title}</div>

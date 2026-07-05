@@ -2,28 +2,40 @@ import { useEffect, useState, useCallback } from "react";
 
 const VISITS_KEY = "stillhere.visits";
 const LAST_VISIT_KEY = "stillhere.last_visit";
-
-// ----- Visits -----
 export function useVisits() {
   const [visits, setVisits] = useState<number>(0);
+
   useEffect(() => {
     try {
       const raw = localStorage.getItem(VISITS_KEY);
       const last = localStorage.getItem(LAST_VISIT_KEY);
+
+      console.log("VISITS DEBUG", {
+        raw,
+        last,
+        origin: window.location.origin,
+      });
+
       const now = Date.now();
       const SIX_HOURS = 6 * 60 * 60 * 1000;
+
       let n = raw ? parseInt(raw, 10) || 0 : 0;
+
       if (!last || now - parseInt(last, 10) > SIX_HOURS) {
         n += 1;
         localStorage.setItem(VISITS_KEY, String(n));
         localStorage.setItem(LAST_VISIT_KEY, String(now));
       }
+
       setVisits(n);
-    } catch { setVisits(1); }
+    } catch (e) {
+      console.error(e);
+      setVisits(1);
+    }
   }, []);
+
   return visits;
 }
-
 // ----- Generic localStorage hook -----
 function usePersisted<T>(key: string, initial: T): [T, (next: T | ((p: T) => T)) => void] {
   const [val, setVal] = useState<T>(initial);
